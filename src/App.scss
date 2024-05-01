@@ -1,3 +1,17 @@
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("./assets/RobotoSlab-Regular.ttf");
+}
+
+:root {
+  font-family: "Roboto Slab", serif;
+}
+
+.masonry {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .overlay {
   position: relative;
   cursor: pointer;
@@ -5,4 +19,9 @@
   * {
     pointer-events: none;
   }
+}
+
+iframe, figure, body {
+  margin: 0;
+  border: 0;
 }

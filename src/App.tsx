@@ -58,7 +58,7 @@ const App = () => {
       clickedGifs.current = [...clickedGifs.current, currentCard]
     }
 
-    fetch("https://api.giphy.com/v1/gifs/trending?api_key=BBvAVBWsTWm80AeqYJivTY0s4nrR0sY3").then((response) => {
+    fetch("https://api.giphy.com/v1/gifs/trending?api_key=BBvAVBWsTWm80AeqYJivTY0s4nrR0sY3&limit=20").then((response) => {
       return response.json()
     }).then((data: {data: GifData[]}) => {
       const cards = data["data"].map(gif => <Card data={gif} handler={updateScore} key={gif["id"]} />)
@@ -82,9 +82,10 @@ const App = () => {
 
   return (
     <div>
+      <h1>GIF Memory Card Game</h1>
       <p>Score: {score.current}</p>
       <p>Best Score: {score.best}</p>
-      <div>{gifs}</div>
+      <div className="masonry">{gifs}</div>
     </div>
   )
 }
