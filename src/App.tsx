@@ -1,9 +1,9 @@
 import React, { useEffect, useReducer, useRef, useState } from 'react'
 import scoreReducer from './reducers/scoreReducer.ts'
 import Card from './components/Card.tsx'
-import { GifData } from './components/interfaces.ts'
-import GIF_ENDPOINT from './constants/api.ts'
 import "./styles/App.scss"
+
+const GIF_ENDPOINT = "https://api.giphy.com/v1/gifs/trending?api_key=BBvAVBWsTWm80AeqYJivTY0s4nrR0sY3&limit=20&rating=g"
 
 const initialScore = {
   current: 0,
@@ -26,10 +26,25 @@ const App = () => {
       clickedGifs.current = [...clickedGifs.current, currentCard]
     }
 
+    interface GifData {
+      data: {
+        id: string,
+        embed_url: string,
+        title: string
+      }[]
+    }
+
     fetch(GIF_ENDPOINT).then((response) => {
       return response.json()
-    }).then((data: {data: GifData[]}) => {
-      const cards = data["data"].map(gif => <Card data={gif} handler={updateScore} key={gif["id"]} />)
+    }).then((data: GifData) => {
+      const cards = data["data"].map(gif => 
+        <Card 
+          url={gif["embed_url"]} 
+          cap={gif["title"]} 
+          id={gif["id"]}
+          handler={updateScore} 
+          key={gif["id"]} />
+      )
       setGifs(cards)
     })
   }
@@ -53,7 +68,7 @@ const App = () => {
       <h1 className="title">GIF Memory Card Game</h1>
       <div className="scoreboard">
         <h2>Score: {score.current}</h2>
-        <h2>Best Score: {score.best}</h2>
+        <h2>Best: {score.best}</h2>
       </div>
     </hgroup>
     <main className="masonry">

@@ -1,14 +1,29 @@
-import React from "react"
-import { GifData } from "./interfaces"
+import React, { useState } from "react"
+import gihpy from "../assets/gihpy.png"
+import "../styles/Card.scss"
 
-const Card: React.FC<{data: GifData, handler: React.MouseEventHandler<HTMLElement>}> = ({data, handler}) => {
-  const {embed_url, title, id} = data
+interface props {
+  url: string, 
+  cap: string, 
+  id: string, 
+  handler: React.MouseEventHandler<HTMLElement>
+}
+
+const Card: React.FC<props> = ({url, cap, id, handler}) => {
+  const [isLoaded, setIsLoaded] = useState(false)
 
   return (
-    <figure id={id} onClick={handler} className="overlay card">
-      <iframe src={embed_url} title={title} sandbox="allow-scripts"></iframe>
-      <figcaption>{title}</figcaption>
+    <div className={`three-dimensional ${isLoaded ? "loaded": ""}`}>
+    <figure className="flip">
+      <div className="front">
+        <img src={gihpy} alt="giphy logo" />
+      </div>
+      <div className="back overlay card" onClick={handler} id={id}>
+        <iframe src={url} title={cap} sandbox="allow-scripts" onLoad={() => setIsLoaded(true)}></iframe>
+        <figcaption>{cap}</figcaption>
+      </div>
     </figure>
+    </div>
   )
 }
 

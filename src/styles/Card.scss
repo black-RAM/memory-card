@@ -1,0 +1,67 @@
+@import "./colors.scss";
+
+.overlay {
+  cursor: pointer;
+
+  * {
+    pointer-events: none;
+  }
+}
+
+.card {
+  text-align: center;
+  background-color: $grey;
+  transition: background-color 1s ease;
+  transition: color 1s ease;
+
+  &:hover {
+    background-color: $yellow;
+    color: $grey;
+  }
+}
+
+.three-dimensional {
+  perspective: 1000px;
+  &.loaded .flip {
+    transform: rotateY(-180deg);
+    .front, .back {
+      animation: frontToBack 500ms step-end;
+      animation-fill-mode: forwards;
+    }
+    .back{
+      animation-direction: reverse;
+    }
+  }
+}
+
+.flip {
+  display: grid;
+  transition: transform 500ms ease-in-out;
+  justify-content: center;
+
+  > * {
+    grid-row: 1/2;
+    grid-column: 1/2;
+  }
+
+  .front {
+    z-index: 1;
+    transform: rotateY(0deg);
+  }
+
+  .back {
+    transform: rotateY(-180deg);
+    visibility: hidden;
+  }
+}
+
+@keyframes frontToBack {
+  0% {
+    z-index: 1;
+    visibility: visible;
+  }
+  100% {
+    z-index: 0;
+    visibility: hidden;
+  }
+}
