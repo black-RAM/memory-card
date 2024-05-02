@@ -1,0 +1,61 @@
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("../assets/RobotoSlab-Regular.ttf");
+}
+
+$black: #222831;
+$grey: #393E46;
+$yellow: #FFD369;
+$white: #EEEEEE;
+
+body {
+  font-family: "Roboto Slab", serif;
+  background-color: $black;
+  color: $white;
+}
+
+.spaced-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.title {
+  color: $yellow;
+}
+
+.scoreboard {
+  text-align: right;
+}
+
+.masonry {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  padding: 0 1rem;
+  gap: 1rem;
+}
+
+.overlay {
+  position: relative;
+  cursor: pointer;
+
+  * {
+    pointer-events: none;
+  }
+}
+
+.card {
+  text-align: center;
+  background-color: $grey;
+  transition: all 1s ease;
+
+  &:hover {
+    background-color: $yellow;
+    color: $grey;
+  }
+}
+
+iframe, figure, h1, h2, body {
+  margin: 0;
+  border: 0;
+}

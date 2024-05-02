@@ -1,41 +1,9 @@
 import React, { useEffect, useReducer, useRef, useState } from 'react'
-import "./App.scss"
-
-interface GifData {
-  id: string,
-  embed_url: string,
-  title: string
-}
-
-const Card: React.FC<{data: GifData, handler: React.MouseEventHandler<HTMLElement>}> = ({data, handler}) => {
-  const {embed_url, title, id} = data
-
-  return (
-    <figure id={id} onClick={handler} className="overlay">
-      <iframe src={embed_url} title={title} sandbox="allow-scripts"></iframe>
-      <figcaption>{title}</figcaption>
-    </figure>
-  )
-}
-
-interface State {
-  current: number,
-  best: number
-}
-
-type Action = {type: "INCREMENT"} | {type: "RESET"}
-
-const scoreReducer: React.Reducer<State, Action> = (state, action) => {
-  switch(action.type) {
-    case 'INCREMENT':
-      return {...state, current: state.current + 1}
-    case 'RESET': {
-      let record = state.best
-      if(state.current > record) record = state.current
-      return {current: 0, best: record}
-    }
-  }
-}
+import scoreReducer from './reducers/scoreReducer'
+import Card from './components/Card'
+import { GifData } from './components/interfaces'
+import GIF_ENDPOINT from './constants/api'
+import "./styles/App.scss"
 
 const initialScore = {
   current: 0,
@@ -58,7 +26,7 @@ const App = () => {
       clickedGifs.current = [...clickedGifs.current, currentCard]
     }
 
-    fetch("https://api.giphy.com/v1/gifs/trending?api_key=BBvAVBWsTWm80AeqYJivTY0s4nrR0sY3&limit=20").then((response) => {
+    fetch(GIF_ENDPOINT).then((response) => {
       return response.json()
     }).then((data: {data: GifData[]}) => {
       const cards = data["data"].map(gif => <Card data={gif} handler={updateScore} key={gif["id"]} />)
@@ -80,14 +48,18 @@ const App = () => {
   useEffect(createCards, [])
   useEffect(shuffle, [score])
 
-  return (
-    <div>
-      <h1>GIF Memory Card Game</h1>
-      <p>Score: {score.current}</p>
-      <p>Best Score: {score.best}</p>
-      <div className="masonry">{gifs}</div>
-    </div>
-  )
+  return <>
+    <hgroup className="spaced-header">
+      <h1 className="title">GIF Memory Card Game</h1>
+      <div className="scoreboard">
+        <h2>Score: {score.current}</h2>
+        <h2>Best Score: {score.best}</h2>
+      </div>
+    </hgroup>
+    <main className="masonry">
+      {gifs}
+    </main>
+  </>
 }
 
 export default App
