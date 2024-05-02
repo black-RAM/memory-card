@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer, useRef, useState } from 'react'
-import scoreReducer from './reducers/scoreReducer'
-import Card from './components/Card'
-import { GifData } from './components/interfaces'
-import GIF_ENDPOINT from './constants/api'
+import scoreReducer from './reducers/scoreReducer.ts'
+import Card from './components/Card.tsx'
+import { GifData } from './components/interfaces.ts'
+import GIF_ENDPOINT from './constants/api.ts'
 import "./styles/App.scss"
 
 const initialScore = {
